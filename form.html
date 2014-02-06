@@ -1,0 +1,28 @@
+<HTML>
+<HEAD>
+<TITLE>Test Input</TITLE>
+<SCRIPT LANGUAGE="JavaScript">
+function testResults (form) {
+	var IPAddress = form.ip_address.value;
+	var InputCommand = encodeURIComponent(form.input_command.value);
+	InputCommand = InputCommand.replace(/!/g, "%21");
+	InputCommand = InputCommand.replace(/'/g, "%27");
+	InputCommand = InputCommand.replace(/\(/g, "%28");
+	InputCommand = InputCommand.replace(/\)/g, "%29");
+	InputCommand = InputCommand.replace(/\*/g, "%2A");
+	InputCommand = InputCommand.replace(/\~/g, "%2D");
+	var theURL = "http://" + IPAddress + "/arduino/type/" + InputCommand;
+//	alert ("The URL is: " + theURL);
+	window.open(theURL);
+}
+</SCRIPT>
+</HEAD>
+<BODY>
+<FORM NAME="myform" ACTION="" METHOD="GET">Enter the Yun's IP Address: <BR />
+<INPUT TYPE="text" NAME="ip_address" VALUE="" /><P />
+Enter what you want to type: <BR />
+<INPUT TYPE="text" NAME="input_command" VALUE="" /><P />
+<INPUT TYPE="button" NAME="button" Value="Send" onClick="testResults(this.form)" />
+</FORM>
+</BODY>
+</HTML>
