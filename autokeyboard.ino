@@ -40,6 +40,7 @@ void setup() {
   pinMode(13, OUTPUT);
   digitalWrite(13, LOW);
   Bridge.begin();
+  Serial.begin(9600);
 
   // Listen for incoming connection only from localhost
   // (no one from the external network could connect)
@@ -88,7 +89,7 @@ void typeCommand(YunClient client) {
 
   digitalWrite(13, HIGH);
   Keyboard.begin();
-//  Keyboard.println(entry);
+////  Serial.println(entry);
   delay(1000);
   Keyboard.end();
   digitalWrite(13, LOW);
@@ -102,30 +103,31 @@ void keysCommand(YunClient client) {
   Keyboard.begin();
   String entry = client.readStringUntil('\r');
   String message = entry;
-//  Keyboard.println(entry);//h131/pa/r-1
+//  Serial.println(entry);//h131/pa/r-1
   do {
   //  delay(2000);
     delimiter = message.indexOf('/');
     if(delimiter != -1) {
       command = message.substring(0,delimiter);
-//      Keyboard.println(command);//h131
+//      Serial.println(command);//h131
       action = command.charAt(0);
-//      Keyboard.println(action);//h
+//      Serial.println(action);//h
       key = command.substring(1,command.length());
-//      Keyboard.println(key);//131
+//      Serial.println(key);//131
       message = message.substring(delimiter+1, message.length());
-//      Keyboard.println(message); //pa/r-1 
+//      Serial.println(message); //pa/r-1 
       keySequence(action,key);
     }
     else {
       if (message.length() > 0) {
         action = message.charAt(0);
-//        Keyboard.println(action);
-        key = message.substring(1,command.length());
-//        Keyboard.println(key);
+//        Serial.println(action);
+        key = message.substring(1,message.length());
+//        Serial.println(key);
         keySequence(action,key);
       }
-    }   
+    }
+    delay(200);   
   }
   while(delimiter >=0);
   Keyboard.end();
@@ -151,31 +153,32 @@ void keySequence(char theAction, String theKey) {
   // If the key is 3 characters, it's a number for a special key.
   if(theKey.length() == 3) {
     thisKey = theKey.toInt();
-//    Keyboard.println(thisKey);
+//    Serial.println(thisKey);
   }
   // If the key is 1 character, read the key directly.
   else if(theKey.length() == 1) {
     thisKey = theKey.charAt(0);
-//    Keyboard.println(thisKey);
+//    Serial.println(thisKey);
   }
   // Otherwise, release all the keys.
   else {
-    boolean releaseKeys = true;
+    Keyboard.releaseAll();
   }
   
   if(releaseKeys) {
-    Keyboard.releaseAll();
-//    Keyboard.println("Releasing keys");
+//    Serial.println("Releasing keys");
   }
   if(theAction == 'h') {
     Keyboard.press(thisKey);
   }
   if(theAction == 'p') {
-    Keyboard.press(thisKey);
-    delay(200);
-    Keyboard.release(thisKey);
+    Keyboard.write(thisKey);
+//    Serial.print("Pressing ");
+//    Serial.println(thisKey);
   }
   if(theAction == 'r') {
     Keyboard.release(thisKey);
+//    Serial.print("Releasing ");
+//    Serial.println(thisKey);
   }
 }
