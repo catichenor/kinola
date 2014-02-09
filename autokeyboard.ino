@@ -40,7 +40,6 @@ void setup() {
   pinMode(13, OUTPUT);
   digitalWrite(13, LOW);
   Bridge.begin();
-  Serial.begin(9600);
 
   // Listen for incoming connection only from localhost
   // (no one from the external network could connect)
@@ -89,7 +88,7 @@ void typeCommand(YunClient client) {
 
   digitalWrite(13, HIGH);
   Keyboard.begin();
-////  Serial.println(entry);
+  Keyboard.println(entry);
   delay(1000);
   Keyboard.end();
   digitalWrite(13, LOW);
