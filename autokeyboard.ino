@@ -88,69 +88,42 @@ void typeCommand(YunClient client) {
 
   digitalWrite(13, HIGH);
   Keyboard.begin();
-  Keyboard.println(entry);
+//  Keyboard.println(entry);
   delay(1000);
   Keyboard.end();
   digitalWrite(13, LOW);
 }
 
-/*
-void keysCommand(YunClient client) {
-  String entry;
-  char key;
-  
-  while (client.read == '/') {
-    entry = client.readStringUntil('/');
-    key = entry.substring(1,entry.length()).toInt();
-  }
-
-  // Read seconds
-  secs = client.parseInt();
-
-  secs = secs * 1000;
-  
-  digitalWrite(13, HIGH);
-  delay(secs);
-  digitalWrite(13, LOW);
-}
-*/
-
 void keysCommand(YunClient client) {
   int delimiter;
   String command;
-  int sequence;
+  char action;
+  String key;
   Keyboard.begin();
   String entry = client.readStringUntil('\r');
   String message = entry;
-  Keyboard.println(entry);
+//  Keyboard.println(entry);//h131/pa/r-1
   do {
-    delay(2000);
+  //  delay(2000);
     delimiter = message.indexOf('/');
     if(delimiter != -1) {
       command = message.substring(0,delimiter);
-      Keyboard.println(command);
-      sequence = command.toInt();
-      Keyboard.println(sequence);
+//      Keyboard.println(command);//h131
+      action = command.charAt(0);
+//      Keyboard.println(action);//h
+      key = command.substring(1,command.length());
+//      Keyboard.println(key);//131
       message = message.substring(delimiter+1, message.length());
-      Keyboard.println(message);
-      int i = 0;
-      for(i=0;i<sequence;i++) {
-        digitalWrite(13, HIGH);
-        delay(200);
-        digitalWrite(13, LOW);
-        delay(200);
-      }
+//      Keyboard.println(message); //pa/r-1 
+      keySequence(action,key);
     }
     else {
       if (message.length() > 0) {
-        sequence = message.toInt();
-        int i;
-        for(i=0;i<sequence;i++) {
-          digitalWrite(13, HIGH);
-          delay(200);
-          digitalWrite(13, LOW);
-          delay(200);
-        }
+        action = message.charAt(0);
+//        Keyboard.println(action);
+        key = message.substring(1,command.length());
+//        Keyboard.println(key);
+        keySequence(action,key);
       }
     }   
   }
@@ -169,4 +142,40 @@ void waitCommand(YunClient client) {
   digitalWrite(13, HIGH);
   delay(secs);
   digitalWrite(13, LOW);
+}
+
+void keySequence(char theAction, String theKey) {
+  char thisKey;
+  boolean releaseKeys = false;
+  
+  // If the key is 3 characters, it's a number for a special key.
+  if(theKey.length() == 3) {
+    thisKey = theKey.toInt();
+//    Keyboard.println(thisKey);
+  }
+  // If the key is 1 character, read the key directly.
+  else if(theKey.length() == 1) {
+    thisKey = theKey.charAt(0);
+//    Keyboard.println(thisKey);
+  }
+  // Otherwise, release all the keys.
+  else {
+    boolean releaseKeys = true;
+  }
+  
+  if(releaseKeys) {
+    Keyboard.releaseAll();
+//    Keyboard.println("Releasing keys");
+  }
+  if(theAction == 'h') {
+    Keyboard.press(thisKey);
+  }
+  if(theAction == 'p') {
+    Keyboard.press(thisKey);
+    delay(200);
+    Keyboard.release(thisKey);
+  }
+  if(theAction == 'r') {
+    Keyboard.release(thisKey);
+  }
 }
