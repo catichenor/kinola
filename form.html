@@ -1,40 +1,61 @@
 <HTML>
 <HEAD>
-<TITLE>Test Input</TITLE>
+<TITLE>"autokeyboard" Form</TITLE>
 <SCRIPT LANGUAGE="JavaScript">
-function testResults (form) {
+function testResults (kind, form) {
 	var IPAddress = form.ip_address.value;
-	var InputCommand = encodeURIComponent(form.input_command.value);
-	InputCommand = InputCommand.replace(/!/g, "%21");
-	InputCommand = InputCommand.replace(/'/g, "%27");
-	InputCommand = InputCommand.replace(/\(/g, "%28");
-	InputCommand = InputCommand.replace(/\)/g, "%29");
-	InputCommand = InputCommand.replace(/\*/g, "%2A");
-	InputCommand = InputCommand.replace(/\~/g, "%2D");
-	var theURL = "http://" + IPAddress + "/arduino/type/" + InputCommand;
+	if (kind == "type") {
+		var InputCommand = encodeURIComponent(form.type_command.value);
+		InputCommand = InputCommand.replace(/!/g, "%21");
+		InputCommand = InputCommand.replace(/'/g, "%27");
+		InputCommand = InputCommand.replace(/\(/g, "%28");
+		InputCommand = InputCommand.replace(/\)/g, "%29");
+		InputCommand = InputCommand.replace(/\*/g, "%2A");
+		InputCommand = InputCommand.replace(/\~/g, "%2D");
+		var theURL = "http://" + IPAddress + "/arduino/type/" + InputCommand;
+	}
+	if (kind == "keys") {
+		var InputCommand = form.keys_command.value;
+		var theURL = "http://" + IPAddress + "/arduino/keys/" + InputCommand;
+	}
 //	alert ("The URL is: " + theURL);
 //	window.open(theURL);
-	var XMLHttp;
-	XMLHttp=new XMLHttpRequest();
-	XMLHttp.open("POST",theURL,true);
-	XMLHttp.send();
+	setTimeout(function sendRequest(url) {
+		var XMLHttp;
+		XMLHttp=new XMLHttpRequest();
+		XMLHttp.open("POST",theURL,true);
+		XMLHttp.send();
+	},3000);
 };
 
-function searchKeyPress(e)
+
+
+function searchTypeCommand(e)
 {
 	if (e.keyCode == 13) {
-		document.getElementById("send_btn").click();
+		document.getElementById("type_btn").click();
+	}
+	return false;
+};
+
+function searchKeysCommand(e)
+{
+	if (e.keyCode == 13) {
+		document.getElementById("keys_btn").click();
 	}
 	return false;
 };
 </SCRIPT>
 </HEAD>
 <BODY>
-<FORM NAME="myform" ACTION="" METHOD="GET">Enter the Yun's IP Address: <BR />
+<FORM NAME="autokeyboard_form" ACTION="" METHOD="GET">Enter the Yun's IP Address: <BR />
 <INPUT TYPE="text" NAME="ip_address" VALUE="" /><P />
-Enter what you want to type: <BR />
-<INPUT TYPE="text" NAME="input_command" VALUE="" onkeypress="searchKeyPress(event);"/><P />
-<INPUT TYPE="button" NAME="button" Value="Send" id="send_btn" onClick="testResults(this.form);" />
+Enter what you want to type:<BR />
+<INPUT TYPE="text" NAME="type_command" VALUE="" onkeypress="searchTypeCommand(event);"/><P />
+<INPUT TYPE="button" NAME="button" Value="Send" id="type_btn" onClick="testResults('type', this.form);" /><P />
+Or, enter the key command you want to send:<BR />
+<INPUT TYPE="text" NAME="keys_command" VALUE="" onkeypress="searchKeysCommand(event);"/><P />
+<INPUT TYPE="button" NAME="button" Value="Send" id="keys_btn" onClick="testResults('keys', this.form);" />
 </FORM>
 </BODY>
 </HTML>
