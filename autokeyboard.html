@@ -3,59 +3,63 @@
 <TITLE>"autokeyboard" Form</TITLE>
 <SCRIPT LANGUAGE="JavaScript">
 function testResults (kind, form) {
-	var IPAddress = form.ip_address.value;
-	if (kind == "type") {
-		var InputCommand = encodeURIComponent(form.type_command.value);
-		InputCommand = InputCommand.replace(/!/g, "%21");
-		InputCommand = InputCommand.replace(/'/g, "%27");
-		InputCommand = InputCommand.replace(/\(/g, "%28");
-		InputCommand = InputCommand.replace(/\)/g, "%29");
+	var IPAddress = form.ip_address.value; // Grab the entered IP address for the Yun
+	if (kind == "type") { // If the user wants to type a command...
+		var InputCommand = encodeURIComponent(form.type_command.value); //...encode it as a URL..
+		InputCommand = InputCommand.replace(/!/g, "%21");	//...and substitute the
+		InputCommand = InputCommand.replace(/'/g, "%27");	//characters that
+		InputCommand = InputCommand.replace(/\(/g, "%28");	//"encodeURIComponent"
+		InputCommand = InputCommand.replace(/\)/g, "%29");	//doesn't translate.
 		InputCommand = InputCommand.replace(/\*/g, "%2A");
-		InputCommand = InputCommand.replace(/\~/g, "%2D");
-		var theURL = "http://" + IPAddress + "/arduino/type/" + InputCommand;
+		InputCommand = InputCommand.replace(/\~/g, "%2D");				  
+// See <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent> 
+// for a list of characters not translated by "encodeURIComponent".
 	}
 	if (kind == "keys") {
-		var InputCommand = form.keys_command.value;
-		var theURL = "http://" + IPAddress + "/arduino/keys/" + InputCommand;
+		var InputCommand = form.keys_command.value;	//send the commands directly if you want 
+								//to send keys. Of course, these must be 
+								//sent in the macro language defined for
+								//sending these keys. See README for
+								//additional details.
 	}
-//	alert ("The URL is: " + theURL);
-//	window.open(theURL);
-	setTimeout(function sendRequest(url) {
-		var XMLHttp;
-		XMLHttp=new XMLHttpRequest();
-		XMLHttp.open("POST",theURL,true);
-		XMLHttp.send();
+	var theURL = "http://" + IPAddress + "/arduino/" + kind + "/" + InputCommand;
+//	alert ("The URL is: " + theURL); //Testing code
+//	timedURL(theURL); //For testing on a local machine, gives 3 seconds to switch to another window
+	quickURL(theURL);
+};
+
+function timedURL(url) {
+	setTimeout(function sendRequest() {
+	quickURL(url);
 	},3000);
-};
+}
 
+function quickURL(url) {
+	var XMLHttp;
+	XMLHttp=new XMLHttpRequest();
+	XMLHttp.open("POST",url,true);
+	XMLHttp.send();
+}
 
-
-function searchTypeCommand(e)
-{
+function searchForButton(e, cmd) {	//Check to see if the user pressed "enter" and 
+					//click the appropriate button.
 	if (e.keyCode == 13) {
-		document.getElementById("type_btn").click();
-	}
-	return false;
-};
-
-function searchKeysCommand(e)
-{
-	if (e.keyCode == 13) {
-		document.getElementById("keys_btn").click();
+		document.getElementById(cmd + "_btn").click();
 	}
 	return false;
 };
 </SCRIPT>
 </HEAD>
 <BODY>
-<FORM NAME="autokeyboard_form" ACTION="" METHOD="GET">Enter the Yun's IP Address: <BR />
-<INPUT TYPE="text" NAME="ip_address" VALUE="" /><P />
-Enter what you want to type:<BR />
-<INPUT TYPE="text" NAME="type_command" VALUE="" onkeypress="searchTypeCommand(event);"/><P />
-<INPUT TYPE="button" NAME="button" Value="Send" id="type_btn" onClick="testResults('type', this.form);" /><P />
-Or, enter the key command you want to send:<BR />
-<INPUT TYPE="text" NAME="keys_command" VALUE="" onkeypress="searchKeysCommand(event);"/><P />
-<INPUT TYPE="button" NAME="button" Value="Send" id="keys_btn" onClick="testResults('keys', this.form);" />
-</FORM>
+	<FORM NAME="autokeyboard_form" ACTION="" METHOD="GET">Enter the Yun's IP Address: <BR />
+	<INPUT TYPE="text" NAME="ip_address" VALUE="" /><P />
+	Enter what you want to type:<BR />
+	<INPUT TYPE="text" NAME="type_command" VALUE="" onkeypress="searchForButton(event, 'type');"/><P />
+	<INPUT TYPE="button" NAME="button" Value="Send" id="type_btn" onClick="testResults('type', this.form);" /><P />
+	Or, enter the key command you want to send:<BR />
+	<INPUT TYPE="text" NAME="keys_command" VALUE="" onkeypress="searchForButton(event, 'keys');"/><P />
+	<INPUT TYPE="button" NAME="button" Value="Send" id="keys_btn" onClick="testResults('keys', this.form);" />
+	</FORM>
 </BODY>
 </HTML>
+

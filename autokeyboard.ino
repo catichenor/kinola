@@ -83,101 +83,88 @@ void process(YunClient client) {
   }
 }
 
-void typeCommand(YunClient client) {
+void typeCommand(YunClient client) { //For sending out a line of text.
   String entry = client.readStringUntil('\r');
 
-  digitalWrite(13, HIGH);
-  Keyboard.begin();
-  Keyboard.println(entry);
-  delay(1000);
-  Keyboard.end();
-  digitalWrite(13, LOW);
+  digitalWrite(13, HIGH);   //Indicate the beginning of processing.
+  Keyboard.begin();         //Startup the keyboard interface
+  Keyboard.println(entry);  //Print out whatever is in the URL (must be URI encoded first)
+  delay(1000);              //Wait one second.
+  Keyboard.end();           //Close the keyboard interface.
+  digitalWrite(13, LOW);    //Indicate the end of processing.
 }
 
-void keysCommand(YunClient client) {
-  int delimiter;
-  String command;
-  char action;
-  String key;
-  Keyboard.begin();
-  String entry = client.readStringUntil('\r');
-  String message = entry;
-//  Serial.println(entry);//h131/pa/r-1
-  do {
-  //  delay(2000);
-    delimiter = message.indexOf('/');
-    if(delimiter != -1) {
-      command = message.substring(0,delimiter);
-//      Serial.println(command);//h131
-      action = command.charAt(0);
-//      Serial.println(action);//h
-      key = command.substring(1,command.length());
-//      Serial.println(key);//131
-      message = message.substring(delimiter+1, message.length());
-//      Serial.println(message); //pa/r-1 
-      keySequence(action,key);
+void keysCommand(YunClient client) {              //For sending out specific key sequences.
+  int delimiter;                                  //Marks where to split the sequence
+  String command;                                 //The current command (ex. p128 = press Left Ctrl)
+  char action;                                    //The action (h=Hold, r=Release, p=Press and Release)
+  String key;                                     //A single letter/number, or, if 3 numbers,
+                                                  //the char decimal value (ex. 128 = Left Ctrl),
+                                                  //otherwise, all keys are released.
+  Keyboard.begin();                               //Startup the keyboard interface
+  String entry = client.readStringUntil('\r');    //Marks the end of the string
+  String message = entry;                         //Contains what's left of the message during processing
+
+  do {                                                             //Repeat
+    delimiter = message.indexOf('/');                              //Find the "/" separator
+    if(delimiter != -1) {                                          //If there's still a delimiter,
+      command = message.substring(0,delimiter);                    //grab the text before the delimiter.
+      action = command.charAt(0);                                  //The action is the first character,
+      key = command.substring(1,command.length());                 //the key is the rest of the entry.
+      message = message.substring(delimiter+1, message.length());  //Remove the first part of the message
+      keySequence(action,key);                                     //then perform the action on the key.
     }
-    else {
-      if (message.length() > 0) {
-        action = message.charAt(0);
-//        Serial.println(action);
-        key = message.substring(1,message.length());
-//        Serial.println(key);
-        keySequence(action,key);
+    else {                                                         //otherwise,
+      if (message.length() > 0) {                                  //If there's no delimiter left,
+        action = message.charAt(0);                                //get the action,
+        key = message.substring(1,message.length());               //and the key from "message" itself,
+        keySequence(action,key);                                   //then perform the action on the key.
       }
     }
-    delay(200);   
+    delay(200);                                                    //Simulate 60 wpm.
   }
-  while(delimiter >=0);
-  Keyboard.end();
+  while(delimiter >=0);                           //end loop
+  Keyboard.end();                                 //release the keyboard
 }
 
+// This is here for testing.
 void waitCommand(YunClient client) {
   int secs;
 
   // Read seconds
-  secs = client.parseInt();
+  secs = client.parseInt();          //Parses the number of seconds,
 
-  secs = secs * 1000;
+  secs = secs * 1000;                //then multiplies that by 1000 ms.
   
-  digitalWrite(13, HIGH);
-  delay(secs);
-  digitalWrite(13, LOW);
+  digitalWrite(13, HIGH);            //Turn on the light
+  delay(secs);                       //for the specified number of seconds
+  digitalWrite(13, LOW);             //then turn it off.
 }
 
 void keySequence(char theAction, String theKey) {
-  char thisKey;
+  char thisKey;                     //The specified key as a char.
   boolean releaseKeys = false;
   
   // If the key is 3 characters, it's a number for a special key.
   if(theKey.length() == 3) {
-    thisKey = theKey.toInt();
-//    Serial.println(thisKey);
+    thisKey = theKey.toInt();       //Translate the keycode
   }
   // If the key is 1 character, read the key directly.
   else if(theKey.length() == 1) {
-    thisKey = theKey.charAt(0);
-//    Serial.println(thisKey);
+    thisKey = theKey.charAt(0);     //Translate the single character as a key
   }
   // Otherwise, release all the keys.
   else {
     Keyboard.releaseAll();
   }
   
-  if(releaseKeys) {
-//    Serial.println("Releasing keys");
-  }
-  if(theAction == 'h') {
+  if(theAction == 'h') {      //if "h", hold the key
     Keyboard.press(thisKey);
   }
-  if(theAction == 'p') {
+  if(theAction == 'p') {      //if "p", press and release the key
     Keyboard.write(thisKey);
-//    Serial.print("Pressing ");
-//    Serial.println(thisKey);
   }
-  if(theAction == 'r') {
+  if(theAction == 'r') {      //if "r", release the key
     Keyboard.release(thisKey);
-//    Serial.print("Releasing ");
-//    Serial.println(thisKey);
   }
 }
