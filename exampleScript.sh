@@ -22,8 +22,8 @@ sleep 20                                       # -- Installing --
 ${PYCOM} ${YUNIP} -c 'p176'                    # Return/Enter - to close the final "dialog box"
 sleep 2                                        # -- Wait for installer to close --
 ${PYCOM} ${YUNIP} 'reboot'                     # Restart the machine
-sleep 23                                       # Wait for grub boot screen, if any...
-${PYCOM} ${YUNIP} -c 'p176'                    # Return/Enter for the default option
+sleep 23                                       # -- Wait for grub boot screen, if any --
+${PYCOM} ${YUNIP} -c 'p176'                    # Return/Enter - for the default option
 sleep 25                                       # -- Continue booting --
 ${PYCOM} ${YUNIP} 'password'                   # Assumes the default user is the administrator, enter the password here
 sleep 10                                       # -- Continue booting --
