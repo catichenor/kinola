@@ -20,7 +20,7 @@ else:
 	outKind = "type"
 
 # Insert a delay for local testing. Comment for instant gratification.
-time.sleep(3)
+#time.sleep(3)
 
 # Put it all together, send the request.
 urllib.urlopen("http://" + args.address + "/arduino/" + outKind + "/" + outCommand)
