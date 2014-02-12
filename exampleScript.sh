@@ -15,7 +15,7 @@ ${PYCOM} ${YUNIP} 'password'                   # Again replace 'password' with t
 ${PYCOM} ${YUNIP} 'service lightdm stop'       # Exit X/Unity
 ${PYCOM} ${YUNIP} 'cd Downloads'
 ${PYCOM} ${YUNIP} "./${NVDVR} -aq"             # Run the NVIDIA driver installer, accepting the license and assuming "yes" to most questions.
-${PYCOM} ${YUNIP} -c 'p176'                    # Return/Enter to make sure the installer starts, just in case.
+${PYCOM} ${YUNIP} -c 'p176'                    # Return/Enter - to make sure the installer starts, just in case.
 sleep 30                                       # -- Installing --
 ${PYCOM} ${YUNIP} -c 'p176'                    # Return/Enter - to close the "dialog box"
 sleep 20                                       # -- Installing --
