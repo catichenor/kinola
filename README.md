@@ -1,3 +1,23 @@
+# autokeyboard
+
+## What is this?
+
+This is an Arduino sketch combined with various scripts, which effectively turn an Arduino Yún into a wifi- or ethernet-connected programmable keyboard. From another computer, you can effectively do almost anything that you can do on a keyboard. 
+
+Each script provides a different interface to allow you to easily send lines of text, or use a simple macro language to send specific keyboard commands.
+
+To use this, you'll need the following hardware:
+
+* An Arduino Yún
+* A micro-USB cable, or mini-USB cable with a micro adapter
+* A USB 2.0-capable computer capable of providing 5V of power, which should be any computer made after 2002
+* Another computer with wifi or ethernet capability
+* Optional:
+	* A case for the Arduino Yún
+	* An Ethernet cable
+	
+Software-wise, if you have a Mac or a Linux PC, you should have everything you need to connect the Arduino.
+
 ## How to install the sketch
 
 1. Install the [Arduino 1.5-series IDE software](http://arduino.cc/en/main/software#toc3), currently in beta.
