@@ -48,7 +48,23 @@ With the autokeyboard.py script, you can send lines of text to a remote computer
 
 `python autokeyboard.py [ip.address] 'Hello, World!'`
 
-You must enter the numeric IP address of the Arduino; the zeroconf ".local" name is not understood by python.
+This will print `Hello, World!` on the computer that has the Yun attached. Note that when sending text to a remote computer in this fashion, there will always be a return/enter that will be performed after the text is typed.
+
+If you'd like to send specific keys, such as the Control key, F2, or Tab, you can use the `-c` switch to send a keyboard macro. For example:
+
+`python autokeyboard.py [ip.address] 'h128/h130/p212/r-1'`
+
+This sends the familiar DOS/Windows "three finger salute" a.k.a. the Control-Alt-Delete command to the Arduino-connected computer. 
+
+#### Breaking this down:
+
+* `h128` means "hold down the 128th character". Character 128 is understood by the Arduino as the "Left Control" key.
+* `/` is used as a separator for each key command.
+* `h130` means "hold down the 130th character". Character 130 is the "Left Alt" key.
+* `p212` means "press (and release) the 212th character". Character 212 is the "Delete" key.
+* `r-1` means "release all keys".
+
+You must enter the numeric IP address of the Arduino; the zeroconf ".local" name is not understood by python. If you have a name server, that assigned address will probably work.
 
 ## Warning
 
