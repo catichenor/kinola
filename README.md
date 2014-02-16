@@ -64,10 +64,43 @@ This sends the familiar DOS/Windows "three finger salute" a.k.a. the Control-Alt
 * `p212` means "press (and release) the 212th character". Character 212 is the "Delete" key.
 * `r-1` means "release all keys".
 
-You must enter the numeric IP address of the Arduino; the zeroconf ".local" name is not understood by python. If you have a name server, that assigned address will probably work.
+Alternatively, you could use `/r128/r130` at the end of the command instead of `r-1` to release the "Control" and "Alt" keys.
+
+You can also send single keys to the Arduino, i.e. `pa/pb/pc/p1/p2/p3` sends "abc123".
+
+An list of key codes is available here: <http://arduino.cc/en/Reference/KeyboardModifiers>
+
+#### 
+
+You can use a combination of these commands in succession to operate a computer remotely. An example of this sort of usage is included in the `exampleScript.sh` script.
+
+#### Limitations: 
+
+Sending mouse commands isn't possible with the Arduino sketch, and the communication with the remote computer is strictly one-way; you can send commands, but you won't receive the results through the Arduino.
+
+For this script, you must enter the numeric IP address of the Arduino; the zeroconf ".local" name is not understood by Python's urllib. If you have a name server, that assigned address will probably work.
+
+### Javascript/HTML: autokeyboard.html
+
+You can open this file in a web browser and use it to send text or key commands to the Yun, using a more friendly GUI interface. It's more of a proof-of-concept at this point than a useful tool. 
+
+You can enter text in the first field, and send it to the remote computer, or you can enter key commands in the second field.	This script does have the advantage that it will be able to send commands to a zeroconf ".local" address if your computer supports it.
+
+### Future Possibilities:
+
+* Arduino Sketch:
+	* Ability to save and recall commands
+	* Feedback on command success/fail
+* Javascript/HTML:
+	* Command history
+	* Recording and playing back a sequence of commands as a script
+	* Import/export of scripts
+* Python:
+	* Adding Zeroconf.
+	* Checking for success after sending a command.																																																																																																																																																																																																																																																																																																																								
 
 ## Warning
 
-This tutorial assumes that you have not applied a password to the REST API of the Yun. Even if you have, other people on your network will probably be able to read the commands that you send. Do not send sensitive data to the Yun.
+This document assumes that you have not applied a password to the REST API of the Yun. Even if you have, other people on your network will probably be able to read the commands that you send. Do not send sensitive data to the Yun.
 
 Also, anyone else on your network (including someone far away with a strong enough wifi antenna) will be able to send remote commands to the machine that currently has the Yun connected.
