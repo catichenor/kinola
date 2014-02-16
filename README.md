@@ -66,9 +66,12 @@ This sends the familiar DOS/Windows "three finger salute" a.k.a. the Control-Alt
 
 Alternatively, you could use `/r128/r130` at the end of the command instead of `r-1` to release the "Control" and "Alt" keys.
 
-You can also send single keys to the Arduino, i.e. `pa/pb/pc/p1/p2/p3` sends "abc123".
+You can also send single keys to the Arduino, i.e. `pa/pb/pc/p1/p2/p3` sends "abc123". This won't work for some keys, such as `%` and `/`, so you can use the equivalent ASCII key code.
 
-An list of key codes is available here: <http://arduino.cc/en/Reference/KeyboardModifiers>
+A table of ASCII key codes is here:
+<http://www.asciitable.com>
+
+An list of Arduino key codes above 127 is available here: <http://arduino.cc/en/Reference/KeyboardModifiers>
 
 #### 
 

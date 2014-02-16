@@ -146,16 +146,19 @@ void keySequence(char theAction, String theKey) {
   boolean releaseKeys = false;
   
   // If the key is 3 characters, it's a number for a special key.
-  if(theKey.length() == 3) {
-    thisKey = theKey.toInt();       //Translate the keycode
+  if(theKey == "-1") {
+    Keyboard.releaseAll();          //Code to release all keys
   }
   // If the key is 1 character, read the key directly.
   else if(theKey.length() == 1) {
-    thisKey = theKey.charAt(0);     //Translate the single character as a key
+    thisKey = theKey.charAt(0);     //Translate the single character as a key. 
+  }                                 //This won't work for characters that don't encode properly into URLs.
+  // If the key is 2 or 3 characters, translate to an ASCII keycode.
+  else if(theKey.length() <=3){     //This should allow the use of 
+    thisKey = theKey.toInt()        //of URL untranslatable characters.
   }
-  // Otherwise, release all the keys.
-  else {
-    Keyboard.releaseAll();
+  else {                            //This shouldn't happen.
+    Keyboard.releaseAll();          //Release all keys, just to be safe.
   }
   
   if(theAction == 'h') {      //if "h", hold the key
