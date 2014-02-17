@@ -73,7 +73,7 @@ A table of ASCII key codes is here:
 
 An list of Arduino key codes above 127 is available here: <http://arduino.cc/en/Reference/KeyboardModifiers>
 
-#### 
+#### Remote Control:
 
 You can use a combination of these commands in succession to operate a computer remotely. An example of this sort of usage is included in the `exampleScript.sh` script.
 
@@ -89,7 +89,7 @@ You can open this file in a web browser and use it to send text or key commands 
 
 You can enter text in the first field, and send it to the remote computer, or you can enter key commands in the second field.	This script does have the advantage that it will be able to send commands to a zeroconf ".local" address if your computer supports it.
 
-### Future Possibilities:
+## Future Possibilities:
 
 * Arduino Sketch:
 	* Ability to save and recall commands

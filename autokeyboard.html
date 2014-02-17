@@ -22,10 +22,12 @@ function testResults (kind, form) {
 								//sending these keys. See README for
 								//additional details.
 	}
+	InputCommand = InputCommand.replace(/^\//, ""); //remove a leading slash, if any
+	IPAddress = IPAddress.replace(/https?:\/\//, "") //remove "http://", if any
 	var theURL = "http://" + IPAddress + "/arduino/" + kind + "/" + InputCommand;
 //	alert ("The URL is: " + theURL); //Testing code
-//	timedURL(theURL); //For testing on a local machine, gives 3 seconds to switch to another window
-	quickURL(theURL);
+	timedURL(theURL); //For testing on a local machine, gives 3 seconds to switch to another window
+//	quickURL(theURL);
 };
 
 function timedURL(url) {
