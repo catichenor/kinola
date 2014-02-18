@@ -1,6 +1,6 @@
 <HTML>
 <HEAD>
-<TITLE>"autokeyboard" Form</TITLE>
+<TITLE>progkey</TITLE>
 <SCRIPT LANGUAGE="JavaScript">
 function testResults (kind, form) {
 	var IPAddress = form.ip_address.value; // Grab the entered IP address for the Yun
@@ -53,7 +53,7 @@ function searchForButton(e, cmd) {	//Check to see if the user pressed "enter" an
 </SCRIPT>
 </HEAD>
 <BODY>
-	<FORM NAME="autokeyboard_form" ACTION="" METHOD="GET">Enter the Yun's IP Address: <BR />
+	<FORM NAME="progkey_form" ACTION="" METHOD="GET">Enter the Yun's IP Address: <BR />
 	<INPUT TYPE="text" NAME="ip_address" VALUE="" /><P />
 	Enter what you want to type:<BR />
 	<INPUT TYPE="text" NAME="type_command" VALUE="" onkeypress="searchForButton(event, 'type');"/><P />
@@ -64,4 +64,3 @@ function searchForButton(e, cmd) {	//Check to see if the user pressed "enter" an
 	</FORM>
 </BODY>
 </HTML>
-
