@@ -1,4 +1,4 @@
-# autokeyboard
+# progkey
 
 ## What is this?
 
@@ -22,7 +22,7 @@ Software-wise, if you have a Mac or a Linux PC, you should have everything you n
 
 1. Install the [Arduino 1.5-series IDE software](http://arduino.cc/en/main/software#toc3), currently in beta.
 	* If you're on Linux, it's best to install your distro's packaged version of the Arduino IDE first, which should contain the dependencies for the beta.
-2. Download the *autokeyboard.ino* sketch by right-clicking on [this link](https://github.com/catichenor/autokeyboard/raw/master/autokeyboard.ino) and saving the linked file to your "Downloads" folder or wherever you'd like to put it.
+2. Download the *progkey.ino* sketch by right-clicking on [this link](https://github.com/catichenor/progkey/raw/master/progkey.ino) and saving the linked file to your "Downloads" folder or wherever you'd like to put it.
 3. Plug the Arduino into a computer via USB, plugging the micro-USB cable into the Arduino, and the other side of the USB cable into the computer.
 	* If you're on Windows, you'll need to install the Arduino driver before the Arduino can be used as a keyboard.
 	* Preferably, you should connect the Yun to another computer
@@ -31,7 +31,7 @@ Software-wise, if you have a Mac or a Linux PC, you should have everything you n
 	* To access the device more easily, turn off password access to the REST API on the configuration page. Note that your commands probably can be sniffed even if you turn on the password access.
 5. Launch the Arduino Beta IDE software.
 	* This will need to be done via command-line on Linux.
-6. Go to **File -> Open**, navigate to where you saved the *autokeyboard.ino* file, and open it.
+6. Go to **File -> Open**, navigate to where you saved the *progkey.ino* file, and open it.
 7. In the IDE, go to the **Tools** menu, then go to the **Board** submenu, and select **Arduino Yun**
 8. Go back to **Tools** menu, then to the **Port** menu, and select the port that contains the Arduino's IP address that you found in step 3.
 	* If you did not change the Yun's defaults, the menu item should read **Arduino at 192.168.240.1 (Arduino Yun)**
@@ -42,17 +42,17 @@ Software-wise, if you have a Mac or a Linux PC, you should have everything you n
 
 ## How to use the scripts
 
-### Python script: autokeyboard.py
+### Python script: progkey.py
 
-With the autokeyboard.py script, you can send lines of text to a remote computer with the following syntax:
+With the progkey.py script, you can send lines of text to a remote computer with the following syntax:
 
-`python autokeyboard.py [ip.address] 'Hello, World!'`
+`python progkey.py [ip.address] 'Hello, World!'`
 
 This will print `Hello, World!` on the computer that has the Yun attached. Note that when sending text to a remote computer in this fashion, there will always be a return/enter that will be performed after the text is typed.
 
 If you'd like to send specific keys, such as the Control key, F2, or Tab, you can use the `-c` switch to send a keyboard macro. For example:
 
-`python autokeyboard.py [ip.address] 'h128/h130/p212/r-1'`
+`python progkey.py [ip.address] 'h128/h130/p212/r-1'`
 
 This sends the familiar DOS/Windows "three finger salute" a.k.a. the Control-Alt-Delete command to the Arduino-connected computer. 
 
@@ -83,7 +83,7 @@ Sending mouse commands isn't possible with the Arduino sketch, and the communica
 
 For this script, you must enter the numeric IP address of the Arduino; the zeroconf ".local" name is not understood by Python's urllib. If you have a name server, that assigned address will probably work.
 
-### Javascript/HTML: autokeyboard.html
+### Javascript/HTML: progkey.html
 
 You can open this file in a web browser and use it to send text or key commands to the Yun, using a more friendly GUI interface. It's more of a proof-of-concept at this point than a useful tool. 
 
