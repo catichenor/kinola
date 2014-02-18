@@ -1,5 +1,5 @@
 /*
- AutoKeyboard control sketch
+ progkey control sketch
 
  This sketch sets up an Arduino Yun to be a web server that listens
  for a url, and types whatever is in that url.
@@ -23,7 +23,7 @@
 
  This project has been uploaded to:
 
- http://github.com/catichenor/autokeyboard
+ http://github.com/catichenor/progkey
 
  */
 
