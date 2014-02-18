@@ -1,11 +1,14 @@
 #!/usr/bin/python
-# Example script that uses the autokeyboard.py command to enter a sequence of commands on a Yun-connected computer.
+# Example script that uses the progkey.py command to enter a sequence of commands on a Yun-connected computer.
 
 # This particular example manually installs an NVIDIA driver on an Ubuntu 12.04 Linux system. It assumes that the Nouveau driver has already been blacklisted (`sudo echo 'blacklist nouveau' >/etc/modprobe.d/nvidia.conf`), the machine has been rebooted, and the machine has already been logged in to the Unity GUI. Also assumes that the driver has been downloaded to the ~/Downloads folder.
 
-PYCOM='python autokeyboard.py'
-YUNIP='192.168.240.1'
-NVDVR='NVIDIA-Linux-x86_64-331.38.run'
+# Setting up the variables
+PYCOM='python progkey.py'                      # Command to launch the script
+YUNIP='192.168.240.1'                          # IP address of the Yun. Currently set to the self-assigned IP that a Yun gives itself by default.
+NVDVR='NVIDIA-Linux-x86_64-331.38.run'         # NVIDIA Driver Installer
+
+# Command queue
 ${PYCOM} ${YUNIP} -c 'h128/h130/p195/r-1'      # Ctrl-Alt-F2 - to switch to VT-2
 sleep 3                                        # Wait for the switch
 ${PYCOM} ${YUNIP} 'username'                   # Replace 'username' with an administrator username
@@ -38,5 +41,3 @@ sleep 2                                        # -- Wait for NVIDIA Settings to 
 ${PYCOM} ${YUNIP} -c 'h129/p179/r129/p176'     # Shift-Tab, then return - to close the NVIDIA Settings app
 sleep 2                                        # -- Wait for another dialog --
 ${PYCOM} ${YUNIP} -c 'p179/p176'               # Tab, then Return - to close the dialog
-
-
