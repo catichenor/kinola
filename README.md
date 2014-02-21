@@ -54,7 +54,7 @@ This will print `Hello, World!` on the computer that has the Yun attached. Note 
 
 If you'd like to send specific keys, such as the Control key, F2, or Tab, you can use the `-c` switch to send a keyboard macro. For example:
 
-`python kinola.py [ip.address] 'h128/h130/p212/r-1'`
+`python kinola.py [ip.address] -c 'h128/h130/p212/r-1'`
 
 This sends the familiar DOS/Windows "three finger salute" a.k.a. the Control-Alt-Delete command to the Arduino-connected computer. 
 
