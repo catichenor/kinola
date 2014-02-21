@@ -1,10 +1,10 @@
 #!/usr/bin/python
-# Example script that uses the progkey.py command to enter a sequence of commands on a Yun-connected computer.
+# Example script that uses the kinola.py command to enter a sequence of commands on a Yun-connected computer.
 
 # This particular example manually installs an NVIDIA driver on an Ubuntu 12.04 Linux system. It assumes that the Nouveau driver has already been blacklisted (`sudo echo 'blacklist nouveau' >/etc/modprobe.d/nvidia.conf`), the machine has been rebooted, and the machine has already been logged in to the Unity GUI. Also assumes that the driver has been downloaded to the ~/Downloads folder.
 
 # Setting up the variables
-PYCOM='python progkey.py'                      # Command to launch the script
+PYCOM='python kinola.py'                      # Command to launch the script
 YUNIP='192.168.240.1'                          # IP address of the Yun. Currently set to the self-assigned IP that a Yun gives itself by default.
 NVDVR='NVIDIA-Linux-x86_64-331.38.run'         # NVIDIA Driver Installer
 
