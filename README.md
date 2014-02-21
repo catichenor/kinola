@@ -2,7 +2,7 @@
 
 ## What is this?
 
-Keyboard : Kinola :: Piano : Pianola
+### Keyboard : Kinola :: Piano : Pianola
 
 This is an Arduino sketch combined with various scripts, which effectively turn an Arduino Yún into a wifi- or ethernet-connected programmable keyboard. From another computer, you can effectively do almost anything that you can do on a keyboard. 
 
