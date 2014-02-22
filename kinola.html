@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <TITLE>Kinola</TITLE>
-<SCRIPT LANGUAGE="JavaScript">
+<SCRIPT LANGUAGE="JavaScript" TYPE='text/javascript'>
 function testResults (kind, form) {
 	var IPAddress = form.ip_address.value; // Grab the entered IP address for the Yun
 	if (kind == "type") { // If the user wants to type a command...
@@ -70,6 +70,52 @@ function startup() {
 }
 
 window.onload = startup;
+
+function addToKeys() {
+	var keyAction = getRadioValue('action');
+	var keyType = getRadioValue('keytype');
+	if (document.getElementById('keyscommand').value) {
+		addToFields("/", ", ");
+	}
+	if(keyAction == "hold") {
+//		alert("Hold it!!!");
+		addToFields("h", "Hold ");
+	}
+	if(keyAction == "push") {
+//		alert("Push it good!");
+		addToFields("p", "Push ");
+	}
+	if(keyAction == "release") {
+//		alert("Release your mind...");
+		addToFields("r", "Release ");
+	}
+
+	if(keyType == "modifierkey") {
+		theElement = document.getElementById("modifieroption");
+		addToFields(theElement.value, theElement.options[theElement.selectedIndex].innerHTML);
+	}
+	if(keyType == "specialkey") {
+		theElement = document.getElementById("specialoption");
+		addToFields(theElement.value, theElement.options[theElement.selectedIndex].innerHTML);
+	}
+	if(keyType == "regularkey") {
+		theElement = document.getElementById("regularoption");
+		addToFields(theElement.value, theElement.value);
+	}
+}
+
+function getRadioValue(name) {
+	for (i=0; i<document.getElementsByName(name).length; i++) {
+		if(document.getElementsByName(name)[i].checked) {
+			return document.getElementsByName(name)[i].value;
+		}			
+	}
+}
+
+function addToFields(shortname, longname) {
+	document.getElementById('keyscommand').value += shortname;
+	document.getElementById('long_input').value += longname;
+}
 </SCRIPT>
 </HEAD>
 <BODY>
@@ -87,7 +133,7 @@ window.onload = startup;
 			<INPUT TYPE="radio" ID="holdradio" NAME="action" VALUE="hold" />Hold
 		</td>
 		<td>
-			<INPUT TYPE="radio" ID="modifierradio" NAME="keytype" VALUE="modifier" onClick="enableElement('modifieroption');">Modifier Key
+			<INPUT TYPE="radio" ID="modifierradio" NAME="keytype" VALUE="modifierkey" onClick="enableElement('modifieroption');">Modifier Key
 		</td>
 		<td>
 			<select id="modifieroption" form="kinolaform">
