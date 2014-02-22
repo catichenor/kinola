@@ -49,18 +49,112 @@ function searchForButton(e, cmd) {	//Check to see if the user pressed "enter" an
 		document.getElementById(cmd + "_btn").click();
 	}
 	return false;
-};
+}
+
+function enableElement(e) {
+	disableElements();
+	document.getElementById(e).disabled=false;
+}
+
+function disableElements() {
+	document.getElementById("modifieroption").disabled=true;
+	document.getElementById("specialoption").disabled=true;
+	document.getElementById("regularoption").disabled=true;
+}
+
+function startup() {
+	disableElements();
+	document.getElementById("holdradio").checked=true;
+	document.getElementById("modifierradio").checked=true;
+	document.getElementById("modifieroption").disabled=false;
+}
+
+window.onload = startup;
 </SCRIPT>
 </HEAD>
 <BODY>
-	<FORM NAME="kinola_form" ACTION="" METHOD="GET">Enter the Yun's IP Address: <BR />
+	<FORM NAME="kinola_form" ACTION="" METHOD="GET" id="kinolaform">Enter the Yun's IP Address: <BR />
 	<INPUT TYPE="text" NAME="ip_address" VALUE="" /><P />
 	Enter what you want to type:<BR />
-	<INPUT TYPE="text" NAME="type_command" VALUE="" onkeypress="searchForButton(event, 'type');"/><P />
+	<INPUT TYPE="text" ID="typecommand" NAME="type_command" VALUE="" onkeypress="searchForButton(event, 'type');"/><P />
 	<INPUT TYPE="button" NAME="button" Value="Send" id="type_btn" onClick="testResults('type', this.form);" /><P />
 	Or, enter the key command you want to send:<BR />
-	<INPUT TYPE="text" NAME="keys_command" VALUE="" onkeypress="searchForButton(event, 'keys');"/><P />
-	<INPUT TYPE="button" NAME="button" Value="Send" id="keys_btn" onClick="testResults('keys', this.form);" />
+	<INPUT TYPE="text" ID="keyscommand" NAME="keys_command" VALUE="" onkeypress="searchForButton(event, 'keys');"/><P />
+	<INPUT TYPE="button" NAME="button" Value="Send" id="keys_btn" onClick="testResults('keys', this.form);" /><P />
+	<table>
+	<tr>
+		<td>
+			<INPUT TYPE="radio" ID="holdradio" NAME="action" VALUE="hold" />Hold
+		</td>
+		<td>
+			<INPUT TYPE="radio" ID="modifierradio" NAME="keytype" VALUE="modifier" onClick="enableElement('modifieroption');">Modifier Key
+		</td>
+		<td>
+			<select id="modifieroption" form="kinolaform">
+				<option value="128">Left Control</option>
+				<option value="129">Left Shift</option>
+				<option value="130">Left Alt</option>
+				<option value="131">Left Command/Windows</option>
+				<option value="132">Right Control</option>
+				<option value="133">Right Shift</option>
+				<option value="134">Right Alt</option>
+				<option value="135">Right Command/Windows</option>		
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<INPUT TYPE="radio" ID="pushradio" NAME="action" VALUE="push" />Push
+		</td>
+		<td>
+			<INPUT TYPE="radio" ID="specialradio" NAME="keytype" VALUE="specialkey" onClick="enableElement('specialoption');">Special Key
+		</td>
+		<td>
+			<select id="specialoption" form="kinolaform">
+				<option value="218">Up Arrow</option>
+				<option value="217">Down Arrow</option>
+				<option value="216">Left Arrow</option>
+				<option value="215">Right Arrow</option>
+				<option value="178">Backspace</option>
+				<option value="179">Tab</option>
+				<option value="176">Return/Enter</option>
+				<option value="177">Escape</option>
+				<option value="212">Delete</option>
+				<option value="211">Page Up</option>
+				<option value="214">Page Down</option>
+				<option value="210">Home</option>
+				<option value="213">End</option>
+				<option value="194">F1</option>
+				<option value="195">F2</option>
+				<option value="196">F3</option>
+				<option value="197">F4</option>
+				<option value="198">F5</option>
+				<option value="199">F6</option>
+				<option value="200">F7</option>
+				<option value="201">F8</option>
+				<option value="202">F9</option>
+				<option value="203">F10</option>
+				<option value="204">F11</option>
+				<option value="205">F12</option>		
+			</select>
+		</td>
+	</tr>
+	<tr>
+	<td>
+		<INPUT TYPE="radio" ID="releaseradio" NAME="action" VALUE="release" />Release
+	</td>
+	<td>
+		<INPUT TYPE="radio" ID="regularradio" NAME="keytype" VALUE="regularkey" onClick="enableElement('regularoption');">Regular Key
+	</td>
+	<td>		
+		<INPUT TYPE="text" ID="regularoption" NAME="regularkey" VALUE="" />
+	</td>
+	</tr>
+	</table>
+	<INPUT TYPE="button" NAME="button" Value="Add Key" id="add_key" onClick="addToKeys();" />
+	<INPUT TYPE="button" NAME="button" Value="Add 'Release All'" onClick="addToKeys();">
+	<INPUT TYPE="button" NAME="button" Value="Remove Key" id="remove_key" onClick="removeFromKeys();" /><P />
+	<textarea id="long_input" rows="5" cols="20"></textarea>
 	</FORM>
 </BODY>
 </HTML>
