@@ -74,9 +74,9 @@ window.onload = startup;
 function addToKeys() {
 	var keyAction = getRadioValue('action');
 	var keyType = getRadioValue('keytype');
-	if (document.getElementById('keyscommand').value) {
-		addToFields("/", ", ");
-	}
+	
+	checkDelimiter();
+		
 	if(keyAction == "hold") {
 //		alert("Hold it!!!");
 		addToFields("h", "Hold ");
@@ -104,6 +104,12 @@ function addToKeys() {
 	}
 }
 
+function checkDelimiter() {
+	if (document.getElementById('keyscommand').value) {
+		addToFields("/", ", ");
+	}	
+}
+
 function getRadioValue(name) {
 	for (i=0; i<document.getElementsByName(name).length; i++) {
 		if(document.getElementsByName(name)[i].checked) {
@@ -115,6 +121,20 @@ function getRadioValue(name) {
 function addToFields(shortname, longname) {
 	document.getElementById('keyscommand').value += shortname;
 	document.getElementById('long_input').value += longname;
+}
+
+function removeFromKeys() {
+	shortField = document.getElementById('keyscommand').value;
+	longField = document.getElementById('long_input').value;
+	shortField = shortField.replace(/(.+)\/.+/, "$1");
+	longField = longField.replace(/(.+),.+/, "$1");
+	document.getElementById('keyscommand').value = shortField;
+	document.getElementById('long_input').value = longField;
+}
+
+function releaseAllKeys() {
+	checkDelimiter();
+	addToFields('r-1', 'Release All Keys');
 }
 </SCRIPT>
 </HEAD>
@@ -198,7 +218,7 @@ function addToFields(shortname, longname) {
 	</tr>
 	</table>
 	<INPUT TYPE="button" NAME="button" Value="Add Key" id="add_key" onClick="addToKeys();" />
-	<INPUT TYPE="button" NAME="button" Value="Add 'Release All'" onClick="addToKeys();">
+	<INPUT TYPE="button" NAME="button" Value="Add 'Release All'" onClick="releaseAllKeys();">
 	<INPUT TYPE="button" NAME="button" Value="Remove Key" id="remove_key" onClick="removeFromKeys();" /><P />
 	<textarea id="long_input" rows="5" cols="20"></textarea>
 	</FORM>
