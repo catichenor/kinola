@@ -85,11 +85,11 @@ Sending mouse commands isn't possible with the Arduino sketch, and the communica
 
 For this script, you must enter the numeric IP address of the Arduino; the zeroconf ".local" name is not understood by Python's urllib. If you have a name server, that assigned address will probably work.
 
-### Javascript/HTML: kinola.html
+### Javascript/HTML: kinola.js and kinola.html
 
-You can open this file in a web browser and use it to send text or key commands to the Yun, using a more friendly GUI interface. It's more of a proof-of-concept at this point than a useful tool. 
+Download both of these files to the same directory, then open the HTML file in a web browser and use it to send text or key commands to the Yun, using a more friendly GUI interface. It's more of a proof-of-concept at this point than a useful tool.
 
-You can enter text in the first field, and send it to the remote computer, or you can enter key commands in the second field.	This script does have the advantage that it will be able to send commands to a zeroconf ".local" address if your computer supports it.
+You can enter text in the first field, and send it to the remote computer, or you can enter key commands in the second field.	This script does have the advantage that it will be able to send commands to a zeroconf ".local" address if your computer supports it. Also, it is helpful for learning the syntax for sending keyboard commands.
 
 ## Future Possibilities:
 
@@ -102,7 +102,7 @@ You can enter text in the first field, and send it to the remote computer, or yo
 	* Import/export of scripts
 * Python:
 	* Adding Zeroconf.
-	* Checking for success after sending a command.																																																																																																																																																																																																																																																																																																																								
+	* Checking for success after sending a command.									
 
 ## Warning
 
