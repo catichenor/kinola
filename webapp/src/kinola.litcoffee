@@ -82,12 +82,19 @@ Sends the (hopefully) clean URL to the Yun.
 
 Functions for manipulating the Command Entry UI.
 
+## docElement
+
+Using `document.getElementById` too much, simplifying.
+
+    docElement = (elementId) ->
+        return document.getElementById(elementId)
+
 ## searchForButton
 
 Checks to see if the user pressed "enter" and clicks the appropriate button.
 
     window.searchForButton = (e, cmd) -> 
-        document.getElementById(cmd + "_btn").click() if e.keyCode is 13
+        docElement(cmd + "_btn").click() if e.keyCode is 13
         false
 
 ## enableElement
@@ -98,7 +105,7 @@ Also disables all other elements, this probably will need to be separated from t
 
     window.enableElement = (e) ->
         disableElements()
-        document.getElementById(e).disabled = false
+        docElement(e).disabled = false
         return
 
 ## disableElements
@@ -108,9 +115,9 @@ Disables 3 specific elements.
 Should change this to loop over an array/turn it into a splat.
 
     window.disableElements = ->
-        document.getElementById("modifieroption").disabled = true
-        document.getElementById("specialoption").disabled = true
-        document.getElementById("regularoption").disabled = true
+        docElement("modifieroption").disabled = true
+        docElement("specialoption").disabled = true
+        docElement("regularoption").disabled = true
         return
 
 ## startup
@@ -119,9 +126,9 @@ Set up initial form values.
 
     window.startup = ->
         disableElements()
-        document.getElementById("holdradio").checked = true
-        document.getElementById("modifierradio").checked = true
-        document.getElementById("modifieroption").disabled = false
+        docElement("holdradio").checked = true
+        docElement("modifierradio").checked = true
+        docElement("modifieroption").disabled = false
         return
 
 ## addToKeys
@@ -138,15 +145,15 @@ Collects the information to show what keys are being added to the form.
         addToFields "r", "Release " if keyAction is "release"
 
         if keyType is "modifierkey"
-            theElement = document.getElementById("modifieroption")
+            theElement = docElement("modifieroption")
             addToFields theElement.value, theElement.options[theElement.selectedIndex].innerHTML
 
         if keyType is "specialkey"
-            theElement = document.getElementById("specialoption")
+            theElement = docElement("specialoption")
             addToFields theElement.value, theElement.options[theElement.selectedIndex].innerHTML
 
         if keyType is "regularkey"
-            theElement = document.getElementById("regularoption")
+            theElement = docElement("regularoption")
             addToFields theElement.value, theElement.value
 
         return
@@ -156,7 +163,7 @@ Collects the information to show what keys are being added to the form.
 Adds delimiters to the key command fields.
 
     window.checkDelimiter = ->
-        addToFields "/", ", " if document.getElementById("keyscommand").value
+        addToFields "/", ", " if docElement("keyscommand").value
         return
 
 ## getRadioValue
@@ -164,10 +171,8 @@ Adds delimiters to the key command fields.
 Figure out which radio value is checked on the entered "name" element.
 
     window.getRadioValue = (name) ->
-        i = 0
-        while i < document.getElementsByName(name).length
-            return document.getElementsByName(name)[i].value if document.getElementsByName(name)[i].checked
-            i++
+        radioElements = document.getElementsByName(name)
+        return radioElement.value for radioElement in radioElements when radioElement.checked
         return
 
 ## addToFields
@@ -175,8 +180,8 @@ Figure out which radio value is checked on the entered "name" element.
 Add the command to the key command fields.
 
     window.addToFields = (shortname, longname) ->
-        document.getElementById("keyscommand").value += shortname
-        document.getElementById("long_input").value += longname
+        docElement("keyscommand").value += shortname
+        docElement("long_input").value += longname
         return
 
 ## removeFromKeys
@@ -184,12 +189,12 @@ Add the command to the key command fields.
 Remove the last element from the key command fields.
 
     window.removeFromKeys = ->
-        shortField = document.getElementById("keyscommand").value
-        longField = document.getElementById("long_input").value
+        shortField = docElement("keyscommand").value
+        longField = docElement("long_input").value
         shortField = shortField.replace(/(.+)\/.+/, "$1")
         longField = longField.replace(/(.+),.+/, "$1")
-        document.getElementById("keyscommand").value = shortField
-        document.getElementById("long_input").value = longField
+        docElement("keyscommand").value = shortField
+        docElement("long_input").value = longField
         return
 
 ## releaseAllKeys
