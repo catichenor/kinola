@@ -39,7 +39,7 @@ See [Mozilla's "encodeURIComponent" page](https://developer.mozilla.org/en-US/do
 
         InputCommand = form.keys_command.value if kind is "keys" 
 
-Text entered is sent directly if you want to send a key command. This, of course, these must be sent in the macro language defined for sending these keys. See [README](http://github.com/catichenor/kinola/blob/master/README.md) for additional details.
+Text entered is sent directly if you want to send a key command. This must be sent in the macro language defined for sending these keys. See [README](http://github.com/catichenor/kinola/blob/master/README.md) for details.
 
         InputCommand = InputCommand.replace(/^\//, "")                 
         # Remove a leading slash from the command, if any
@@ -59,7 +59,7 @@ Text entered is sent directly if you want to send a key command. This, of course
 
 Takes in the URL passed to it, adds a delay, then sends the URL to quickURL.
 
-    window.timedURL = (url) ->
+    timedURL = (url) ->
         setTimeout (sendRequest = ->
             quickURL url
             return
@@ -70,7 +70,7 @@ Takes in the URL passed to it, adds a delay, then sends the URL to quickURL.
 
 Sends the (hopefully) clean URL to the Yun.
 
-    window.quickURL = (url) ->
+    quickURL = (url) ->
         XMLHttp = new XMLHttpRequest()
         XMLHttp.open "POST", url, true
         XMLHttp.send()
@@ -86,12 +86,12 @@ Functions for manipulating the Command Entry UI.
 
 Using `document.getElementById` too much, simplifying.
 
-    docElement = (elementId) ->
+    window.docElement = (elementId) ->
         return document.getElementById(elementId)
 
 ## searchForButton
 
-Checks to see if the user pressed "enter" and clicks the appropriate button.
+Checks to see if the user pressed "enter" and clicks the button sent through `cmd`.
 
     window.searchForButton = (e, cmd) -> 
         docElement(cmd + "_btn").click() if e.keyCode is 13
@@ -99,36 +99,18 @@ Checks to see if the user pressed "enter" and clicks the appropriate button.
 
 ## enableElement
 
-Takes the element passed to it, and enables it. 
-
-Also disables all other elements, this probably will need to be separated from the disableElements function to be more "clean".
+Takes the element passed to it, and enables it.
 
     window.enableElement = (e) ->
-        disableElements()
         docElement(e).disabled = false
         return
 
 ## disableElements
 
-Disables 3 specific elements.
+Disables elements passed to it.
 
-Should change this to loop over an array/turn it into a splat.
-
-    window.disableElements = ->
-        docElement("modifieroption").disabled = true
-        docElement("specialoption").disabled = true
-        docElement("regularoption").disabled = true
-        return
-
-## startup
-
-Set up initial form values.
-
-    window.startup = ->
-        disableElements()
-        docElement("holdradio").checked = true
-        docElement("modifierradio").checked = true
-        docElement("modifieroption").disabled = false
+    window.disableElements = (itemsToDisable...) ->
+        docElement(itemToDisable).disabled = true for itemToDisable in itemsToDisable
         return
 
 ## addToKeys
@@ -162,7 +144,7 @@ Collects the information to show what keys are being added to the form.
 
 Adds delimiters to the key command fields.
 
-    window.checkDelimiter = ->
+    checkDelimiter = ->
         addToFields "/", ", " if docElement("keyscommand").value
         return
 
@@ -170,7 +152,7 @@ Adds delimiters to the key command fields.
 
 Figure out which radio value is checked on the entered "name" element.
 
-    window.getRadioValue = (name) ->
+    getRadioValue = (name) ->
         radioElements = document.getElementsByName(name)
         return radioElement.value for radioElement in radioElements when radioElement.checked
         return
@@ -179,7 +161,7 @@ Figure out which radio value is checked on the entered "name" element.
 
 Add the command to the key command fields.
 
-    window.addToFields = (shortname, longname) ->
+    addToFields = (shortname, longname) ->
         docElement("keyscommand").value += shortname
         docElement("long_input").value += longname
         return
@@ -205,11 +187,3 @@ Adds the "Release All Keys" key command.
         checkDelimiter()
         addToFields "r-1", "Release All Keys"
         return
-        
----
-
-# Initial Startup #
-
-Startup script to set the initial values of the form.
-
-    window.onload = startup

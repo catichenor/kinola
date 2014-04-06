@@ -2,6 +2,19 @@
 <HEAD>
 <TITLE>Kinola</TITLE>
 <SCRIPT SRC="./lib/kinola.js" TYPE='text/javascript' CHARSET="utf-8"></SCRIPT>
+<SCRIPT TYPE='text/javascript'>
+  disableKeyFields = function() {
+    disableElements("modifieroption", "specialoption", "regularoption");
+  };
+  startup = function() {
+    disableKeyFields();
+    docElement("holdradio").checked = true;
+    docElement("modifierradio").checked = true;
+    docElement("modifieroption").disabled = false;
+  };
+  
+  window.onload = startup;
+</SCRIPT>
 </HEAD>
 <BODY>
 	<FORM NAME="kinola_form" ACTION="" METHOD="GET" id="kinolaform">Enter the Yun's IP Address: <BR />
@@ -18,7 +31,7 @@
 			<INPUT TYPE="radio" ID="holdradio" NAME="action" VALUE="hold" />Hold
 		</td>
 		<td>
-			<INPUT TYPE="radio" ID="modifierradio" NAME="keytype" VALUE="modifierkey" onClick="enableElement('modifieroption');">Modifier Key
+			<INPUT TYPE="radio" ID="modifierradio" NAME="keytype" VALUE="modifierkey" onClick="disableKeyFields(); enableElement('modifieroption');">Modifier Key
 		</td>
 		<td>
 			<select id="modifieroption" form="kinolaform">
@@ -38,7 +51,7 @@
 			<INPUT TYPE="radio" ID="pushradio" NAME="action" VALUE="push" />Push
 		</td>
 		<td>
-			<INPUT TYPE="radio" ID="specialradio" NAME="keytype" VALUE="specialkey" onClick="enableElement('specialoption');">Special Key
+			<INPUT TYPE="radio" ID="specialradio" NAME="keytype" VALUE="specialkey" onClick="disableKeyFields(); enableElement('specialoption');">Special Key
 		</td>
 		<td>
 			<select id="specialoption" form="kinolaform">
@@ -75,7 +88,7 @@
 		<INPUT TYPE="radio" ID="releaseradio" NAME="action" VALUE="release" />Release
 	</td>
 	<td>
-		<INPUT TYPE="radio" ID="regularradio" NAME="keytype" VALUE="regularkey" onClick="enableElement('regularoption');">Regular Key
+		<INPUT TYPE="radio" ID="regularradio" NAME="keytype" VALUE="regularkey" onClick="disableKeyFields(); enableElement('regularoption');">Regular Key
 	</td>
 	<td>		
 		<INPUT TYPE="text" ID="regularoption" NAME="regularkey" VALUE="" />
