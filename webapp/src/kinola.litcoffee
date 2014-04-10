@@ -1,3 +1,19 @@
+# Classes #
+
+## KeyList
+
+Keeps track of sequences of keys.
+
+    class window.KeyList
+        constructor: () ->
+            @LIST_OF_KEYS = []
+        addKeyCommand: (theKeyCommand) ->
+            @LIST_OF_KEYS.push(theKeyCommand)
+        removeKeyCommand: () ->
+            @LIST_OF_KEYS.pop()
+        returnCommands: (joiner) ->
+            outKeys = @LIST_OF_KEYS.join(joiner)
+
 # Yun Communication Functions #
 
 Functions for communicating with the Yun.
@@ -113,39 +129,42 @@ Disables elements passed to it.
         docElement(itemToDisable).disabled = true for itemToDisable in itemsToDisable
         return
 
+## refreshKeyCommands
+
+Applies changes from Key Command lists to their respective fields. 
+
+    refreshKeyCommands = ->
+        changeField("short_command", shortKeyList.returnCommands "/")
+        changeField("long_command", longKeyList.returnCommands ", ")
+
 ## addToKeys
 
 Collects the information to show what keys are being added to the form.
 
+This does not do live updating, so any values you change in the form will be nuked when you update.
+
     window.addToKeys = ->
         keyAction = getRadioValue("action")
         keyType = getRadioValue("keytype")
-        checkDelimiter()
-        
-        addToFields "h", "Hold " if keyAction is "hold"
-        addToFields "p", "Push " if keyAction is "push"
-        addToFields "r", "Release " if keyAction is "release"
+        [keySelection, keyValue] = [keyType.split("_")[0], keyType.split("_")[2]]
+        shortAction = keyAction[0]
+        longAction = keyAction[0].toUpperCase() + keyAction[1...] + " "
+        selectedKeyElement = docElement(keySelection + keyValue)
+        shortKeyChar = selectedKeyElement.value
 
-        if keyType is "modifierkey"
-            theElement = docElement("modifieroption")
-            addToFields theElement.value, theElement.options[theElement.selectedIndex].innerHTML
+        if keyValue is "option"
+            longKeyChar = selectedKeyElement.options[selectedKeyElement.selectedIndex].innerHTML
+        else
+            longKeyChar = selectedKeyElement.value
 
-        if keyType is "specialkey"
-            theElement = docElement("specialoption")
-            addToFields theElement.value, theElement.options[theElement.selectedIndex].innerHTML
+        shortCommandText = shortAction + shortKeyChar
+        longCommandText = longAction + longKeyChar
 
-        if keyType is "regularkey"
-            theElement = docElement("regularoption")
-            addToFields theElement.value, theElement.value
+        shortKeyList.addKeyCommand(shortCommandText)
+        longKeyList.addKeyCommand(longCommandText)
 
-        return
+        refreshKeyCommands()
 
-## checkDelimiter
-
-Adds delimiters to the key command fields.
-
-    checkDelimiter = ->
-        addToFields "/", ", " if docElement("keyscommand").value
         return
 
 ## getRadioValue
@@ -157,13 +176,12 @@ Figure out which radio value is checked on the entered "name" element.
         return radioElement.value for radioElement in radioElements when radioElement.checked
         return
 
-## addToFields
+## changeField
 
 Add the command to the key command fields.
 
-    addToFields = (shortname, longname) ->
-        docElement("keyscommand").value += shortname
-        docElement("long_input").value += longname
+    changeField = (fieldToChange, textToAdd) ->
+        docElement(fieldToChange).value = textToAdd
         return
 
 ## removeFromKeys
@@ -171,12 +189,10 @@ Add the command to the key command fields.
 Remove the last element from the key command fields.
 
     window.removeFromKeys = ->
-        shortField = docElement("keyscommand").value
-        longField = docElement("long_input").value
-        shortField = shortField.replace(/(.+)\/.+/, "$1")
-        longField = longField.replace(/(.+),.+/, "$1")
-        docElement("keyscommand").value = shortField
-        docElement("long_input").value = longField
+        shortKeyList.removeKeyCommand()
+        longKeyList.removeKeyCommand()
+
+        refreshKeyCommands()
         return
 
 ## releaseAllKeys
@@ -184,6 +200,8 @@ Remove the last element from the key command fields.
 Adds the "Release All Keys" key command.
 
     window.releaseAllKeys = ->
-        checkDelimiter()
-        addToFields "r-1", "Release All Keys"
+        shortKeyList.addKeyCommand("r-1")
+        longKeyList.addKeyCommand("Release All Keys")
+
+        refreshKeyCommands()
         return

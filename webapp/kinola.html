@@ -4,9 +4,11 @@
 <SCRIPT SRC="./lib/kinola.js" TYPE='text/javascript' CHARSET="utf-8"></SCRIPT>
 <SCRIPT TYPE='text/javascript'>
   disableKeyFields = function() {
-    disableElements("modifieroption", "specialoption", "regularoption");
+    disableElements("modifieroption", "specialoption", "regularfield");
   };
   startup = function() {
+    shortKeyList = new KeyList();
+    longKeyList = new KeyList();
     disableKeyFields();
     docElement("holdradio").checked = true;
     docElement("modifierradio").checked = true;
@@ -23,7 +25,7 @@
 	<INPUT TYPE="text" ID="typecommand" NAME="type_command" VALUE="" onkeypress="searchForButton(event, 'type');"/><P />
 	<INPUT TYPE="button" NAME="button" Value="Send" id="type_btn" onClick="sendCommand('type', this.form);" /><P />
 	Or, enter the key command you want to send:<BR />
-	<INPUT TYPE="text" ID="keyscommand" NAME="keys_command" VALUE="" onkeypress="searchForButton(event, 'keys');"/><P />
+	<INPUT TYPE="text" ID="short_command" NAME="short_command" VALUE="" onkeypress="searchForButton(event, 'keys');"/><P />
 	<INPUT TYPE="button" NAME="button" Value="Send" id="keys_btn" onClick="sendCommand('keys', this.form);" /><P />
 	<table>
 	<tr>
@@ -31,7 +33,7 @@
 			<INPUT TYPE="radio" ID="holdradio" NAME="action" VALUE="hold" />Hold
 		</td>
 		<td>
-			<INPUT TYPE="radio" ID="modifierradio" NAME="keytype" VALUE="modifierkey" onClick="disableKeyFields(); enableElement('modifieroption');">Modifier Key
+			<INPUT TYPE="radio" ID="modifierradio" NAME="keytype" VALUE="modifier_radio_option" onClick="disableKeyFields(); enableElement('modifieroption');">Modifier Key
 		</td>
 		<td>
 			<select id="modifieroption" form="kinolaform">
@@ -51,7 +53,7 @@
 			<INPUT TYPE="radio" ID="pushradio" NAME="action" VALUE="push" />Push
 		</td>
 		<td>
-			<INPUT TYPE="radio" ID="specialradio" NAME="keytype" VALUE="specialkey" onClick="disableKeyFields(); enableElement('specialoption');">Special Key
+			<INPUT TYPE="radio" ID="specialradio" NAME="keytype" VALUE="special_radio_option" onClick="disableKeyFields(); enableElement('specialoption');">Special Key
 		</td>
 		<td>
 			<select id="specialoption" form="kinolaform">
@@ -88,17 +90,17 @@
 		<INPUT TYPE="radio" ID="releaseradio" NAME="action" VALUE="release" />Release
 	</td>
 	<td>
-		<INPUT TYPE="radio" ID="regularradio" NAME="keytype" VALUE="regularkey" onClick="disableKeyFields(); enableElement('regularoption');">Regular Key
+		<INPUT TYPE="radio" ID="regularradio" NAME="keytype" VALUE="regular_radio_field" onClick="disableKeyFields(); enableElement('regularfield');">Regular Key
 	</td>
 	<td>		
-		<INPUT TYPE="text" ID="regularoption" NAME="regularkey" VALUE="" />
+		<INPUT TYPE="text" ID="regularfield" NAME="regularkey" VALUE="" />
 	</td>
 	</tr>
 	</table>
 	<INPUT TYPE="button" NAME="button" Value="Add Key" id="add_key" onClick="addToKeys();" />
 	<INPUT TYPE="button" NAME="button" Value="Add 'Release All'" onClick="releaseAllKeys();">
 	<INPUT TYPE="button" NAME="button" Value="Remove Key" id="remove_key" onClick="removeFromKeys();" /><P />
-	<textarea id="long_input" rows="5" cols="20"></textarea>
+	<textarea id="long_command" rows="5" cols="20"></textarea>
 	</FORM>
 </BODY>
 </HTML>
